@@ -45,7 +45,8 @@ class App extends Component {
             }
             events[startDate].push(event);
           });
-        console.log("events by date: ", events);
+        keys.sort();
+        console.log("keys: ", keys);
         this.setState({calendarData: events, calendarKeys: keys, calendarDataError: null})
       })
       .catch(this.setState({calendarDataError: "No reservations to display at this time", calendarData: null, calendarKeys: null}));
@@ -60,9 +61,7 @@ class App extends Component {
           information for the availability of Styer and Donnelsville park facilities can
           be viewed below.</p>
         <div>
-          {this.state.calendarKeys && this.state.calendarKeys.map(key => {
-            console.log("key: ", key);
-            return (
+          {this.state.calendarKeys && this.state.calendarKeys.map(key => (
               <div key={key}>
                 <h2>{key}</h2>
                 <ul>
@@ -73,7 +72,7 @@ class App extends Component {
                 </ul>
               </div>
             )
-          })}
+          )}
         </div>
       </div>
     );
