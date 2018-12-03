@@ -65,9 +65,10 @@ class App extends Component {
           information for the availability of Styer and Donnelsville park facilities can
           be viewed below.</p>
         <div>
+          <h2>Scheduled Park Rentals</h2>
           {this.state.calendarKeys && this.state.calendarKeys.map(key => (
               <div key={key}>
-                <h2>{key}</h2>
+                <h3>{key}</h3>
                 <ul className={classes.eventList}>
                   {this
                     .state
