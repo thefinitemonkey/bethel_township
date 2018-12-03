@@ -13,6 +13,10 @@ const styles = {
     height: 600,
     frameborder: 0,
     scrolling: "no"
+  },
+  eventList: {
+    listStyle: "none",
+    paddingLeft: 0
   }
 }
 
@@ -64,7 +68,7 @@ class App extends Component {
           {this.state.calendarKeys && this.state.calendarKeys.map(key => (
               <div key={key}>
                 <h2>{key}</h2>
-                <ul>
+                <ul className={classes.eventList}>
                   {this
                     .state
                     .calendarData[key]
