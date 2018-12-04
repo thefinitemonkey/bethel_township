@@ -3,6 +3,10 @@ import {withStyles} from '@material-ui/core/styles';
 //import Typography from '@material-ui/core/Typography';
 import 'typeface-roboto';
 
+import {API_KEY, CALENDAR_ID} from './const';
+
+
+
 const styles = {
   bodyLayout: {
     margin: 15
@@ -19,9 +23,6 @@ const styles = {
     paddingLeft: 0
   }
 }
-
-const API_KEY = "AIzaSyASEAVn4eRhFpHbbK3bAjYHLOc5r1Yb5i0";
-const CALENDAR_ID = "styer.park@gmail.com";
 
 class App extends Component {
   state = {
