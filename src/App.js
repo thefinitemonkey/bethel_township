@@ -4,6 +4,7 @@ import {withStyles} from '@material-ui/core/styles';
 import 'typeface-roboto';
 
 import RentalCalendar from './components/parks/RentalCalendar';
+import HeaderMenu from './components/global/HeaderMenu';
 
 
 
@@ -14,11 +15,6 @@ const styles = {
 }
 
 class App extends Component {
-  state = {
-    calendarData: null,
-    calendarDataError: null
-  };
-
   componentDidMount = () => {
   }
 
@@ -26,6 +22,7 @@ class App extends Component {
     const {classes} = this.props;
     return (
       <div className={classes.bodyLayout}>
+        <HeaderMenu />
         <h1>Bethel Township, Clark County, OH</h1>
         <p>Our site is currently undergoing maintenance. In the meantime, calendar
           information for the availability of Styer and Donnelsville park facilities can
