@@ -1,7 +1,8 @@
 import React, {PureComponent} from 'react';
 import {withStyles} from '@material-ui/core/styles';
+import HeaderNavItem from './HeaderNavItem';
 
-import {ROOT_MENU_URL} from '../../const';
+import {ROOT_MENU_URL, SECONDARY_MENU_URL} from '../../const';
 
 const styles = {
     primaryWrapper: {
@@ -9,16 +10,6 @@ const styles = {
         flexDirection: "row",
         flexWrap: "nowrap",
         justifyContent: "center"
-    },
-    firstItem: {
-        marginRight: 15
-    },
-    lastItem: {
-        marginLeft: 15
-    },
-    middleItems: {
-        marginLeft: 15,
-        marginRight: 15
     }
 };
 
@@ -33,32 +24,61 @@ class HeaderMenu extends PureComponent {
         fetch(ROOT_MENU_URL)
             .then(response => response.json())
             .then(json => this.setState({primaryMenu: json}))
-            .catch(this.setState({primaryMenu: []}));
+            .catch(e => {
+                console.log("error getting root menu: ", e);
+                this.setState({primaryMenu: []})
+            });
+    }
+
+    onMenuClick = (e, item, level) => {
+        e.preventDefault();
+        console.log("nav item clicked: ", item);
+
+        // If the level of the nav item is 0 then get the related secondary nav links
+        // for display
+        if (level === 0) {
+            const url = SECONDARY_MENU_URL + item.id;
+            fetch(url)
+                .then(response => response.json())
+                .then(json => this.setState({secondaryMenu: json}))
+                .catch(e => {
+                    console.log("error getting secondary menu: ", e);
+                    this.setState({secondaryMenu: []});
+                });
+        }
     }
 
     render() {
         const {classes} = this.props;
+        const primaryLength = this.state.primaryMenu.length;
+        const secondaryLength = this.state.secondaryMenu.length;
 
         return (
-            <div className={classes.primaryWrapper}>
-                {this
-                    .state
-                    .primaryMenu
-                    .map((item, index) => {
-                        // Set the appropriate classes for the menu item
-                        let classesObj;
-                        if (index === 0) {
-                            classesObj = classes.firstItem;
-                        } else if (index === this.state.primaryMenu.length) {
-                            classesObj = classes.lastItem;
-                        } else {
-                            classesObj = classes.middleItems;
-                        }
-                        // Return the menu item for rendering
-                        return (
-                            <div key={item.id} className={classesObj}>{item.title.rendered}</div>
-                        );
-                    })}
+            <div>
+                <div className={classes.primaryWrapper}>
+                    {this
+                        .state
+                        .primaryMenu
+                        .map((item, index) => (<HeaderNavItem
+                            key={index}
+                            index={index}
+                            length={primaryLength}
+                            navLevel={0}
+                            item={item}
+                            onMenuClick={this.onMenuClick}/>))}
+                </div>
+                <div className={classes.secondaryWrapper}>
+                    {this
+                        .state
+                        .secondaryMenu
+                        .map((item, index) => (<HeaderNavItem
+                            key={index}
+                            index={index}
+                            length={secondaryLength}
+                            navLevel={0}
+                            item={item}
+                            onMenuClick={this.onMenuClick}/>))}
+                </div>
             </div>
         );
     }
