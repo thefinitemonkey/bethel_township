@@ -16,7 +16,8 @@ const styles = {
         display: "flex",
         flexDirection: "row",
         flexWrap: "nowrap",
-        justifyContent: "center"
+        justifyContent: "center",
+        marginBottom: 8
     },
     secondaryWrapper: {
         display: "flex",

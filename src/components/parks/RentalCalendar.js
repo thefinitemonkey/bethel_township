@@ -15,13 +15,14 @@ class RentalCalendar extends PureComponent {
     state = {calendarData: null, calendarKeys: null, calendarDataError: null};
     
     componentDidMount = () => {
+        // Get yesterday's date and query the Google Calendar API for all events forward
+        // from that date for display
         let date = new Date(Date.now() - (24 * 60 * 60 * 1000));
         let url = `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?key=${API_KEY}&timeMin=${date.toISOString()}`;
         fetch(url)
             .then(response => response.json())
             .then(json => {
-                console.log("calendar json: ", json);
-                // Group events by date
+                // Group events by date and get the keys for those groupings
                 let events = {};
                 let keys = [];
                 json
@@ -34,8 +35,8 @@ class RentalCalendar extends PureComponent {
                         }
                         events[startDate].push(event);
                     });
+                // Sort the keys so the events display in sorted date order
                 keys.sort();
-                console.log("keys: ", keys);
                 this.setState({calendarData: events, calendarKeys: keys, calendarDataError: null})
             })
             .catch(this.setState({calendarDataError: "No reservations to display at this time", calendarData: null, calendarKeys: null}));
@@ -49,9 +50,13 @@ class RentalCalendar extends PureComponent {
                 {this.state.calendarKeys && this
                     .state
                     .calendarKeys
-                    .map(key => (
+                    .map(key => {
+                        const date = new Date(key);
+                        const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+                        const displayDate = date.toLocaleDateString('en-US', dateOptions);
+                        return (
                         <div key={key}>
-                            <h3>{key}</h3>
+                            <h3>{displayDate}</h3>
                             <ul className={classes.eventList}>
                                 {this
                                     .state
@@ -59,7 +64,7 @@ class RentalCalendar extends PureComponent {
                                     .map(event => <li key={event.id}>{event.summary}</li>)}
                             </ul>
                         </div>
-                    ))}
+                    )})}
             </div>
         )
     }
