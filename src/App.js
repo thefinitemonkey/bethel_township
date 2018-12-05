@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Route} from 'react-router-dom';
+import {Switch, Route} from 'react-router-dom';
 import {withStyles} from '@material-ui/core/styles';
 //import Typography from '@material-ui/core/Typography';
 import HomePage from './components/templates/HomePage';
@@ -27,18 +27,12 @@ class App extends Component {
       <div className={classes.bodyLayout}>
         <HeaderMenu/>
         <div className={classes.contentWrapper}>
-          <Route exact path='/' render={(() => (
-            <HomePage />
-          ))} />
-          <Route exact path='/home/' render={(() => (
-            <HomePage />
-          ))} />
-          <Route exact path='/parks/' render={(() => (
-            <ParksPage />
-          ))} />
-          <Route path='/' render={(() => (
-            <BasicPage />
-          ))} />
+          <Switch>
+            <Route exact path='/' render={(() => (<HomePage/>))}/>
+            <Route exact path='/home/' render={(() => (<HomePage/>))}/>
+            <Route exact path='/parks/' render={(() => (<ParksPage/>))}/>
+            <Route path='/' render={(() => (<BasicPage/>))}/>
+          </Switch>
         </div>
       </div>
     );
