@@ -13,7 +13,7 @@ const styles = {
     }
 };
 
-class HomePage extends PureComponent {
+class BasicPage extends PureComponent {
     state = {
         pageHTML: null,
         pageTitle: null,
@@ -22,26 +22,40 @@ class HomePage extends PureComponent {
 
     componentDidMount = () => {
         // Get the data for the home page to be displayed
-        const url = PAGES_API_URL + "home";
+        const currentLoc = new URL(window.location);
+        console.log("currentLoc: ", currentLoc);
+        let path = currentLoc.pathname;
+        console.log("path: ", path);
+        let slugs = path.split("/");
+        console.log("slugs: ", slugs);
+        let slugPos = slugs.length - 2;
+        console.log("slugPos: ", slugPos);
+        let slug = slugs[slugPos];
+        console.log("slug: ", slug);
+                
+        const url = PAGES_API_URL + slug;
+        console.log("basic page url: ", url);
         fetch(url)
             .then(response => response.json())
             .then(json => {
+                console.log("json: ", json);
+                console.log("WP_ROOT + path: ", WP_ROOT + path.slice(1));
                 // Filter the returned list to get only the item that matches the base site URL
                 // (slugs aren't unique across navigation layers)
-                let filteredJSON = json.filter(item => item.link === WP_ROOT);
+                let filteredJSON = json.filter(item => item.link === WP_ROOT + path.slice(1));
                 // If there aren't any matches then throw an exception
                 if (!filteredJSON.length) 
-                    throw new pageContentError("Home", "No page matching slug found");
+                    throw new pageContentError(this.props.page.title.rendered, "No page matching slug found");
                 
                 // Set up the content to be displayed
-                const homeJSON = filteredJSON[0];
-                this.setState({pageTitle: homeJSON.title.rendered, pageHTML: homeJSON.content.rendered});
+                const pageJSON = filteredJSON[0];
+                this.setState({pageTitle: pageJSON.title.rendered, pageHTML: pageJSON.content.rendered});
                 // Check for the featured images
-                this.getFeaturedImages(homeJSON);
+                this.getFeaturedImages(pageJSON);
             })
             .catch(error => {
                 console.log("error retrieving home page data: ", error);
-                this.setState({pageHTML: "There was an error getting the home page content. Please try again soon."});
+                this.setState({pageHTML: "There was an error getting the page content. Please try again soon."});
             });
     }
 
@@ -83,4 +97,4 @@ class HomePage extends PureComponent {
     }
 }
 
-export default withStyles(styles)(HomePage);
+export default withStyles(styles)(BasicPage);

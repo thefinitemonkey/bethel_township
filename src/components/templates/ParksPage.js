@@ -3,6 +3,8 @@ import {withStyles} from '@material-ui/core/styles';
 import {PAGES_API_URL, WP_ROOT, FEATURED_MEDIA_API_URL} from '../../const';
 import {pageContentError} from '../../errors/errors_const';
 
+import RentalCalendar from '../parks/RentalCalendar';
+
 const styles = {
     imageDiv: {
         maxHeight: 300,
@@ -13,7 +15,7 @@ const styles = {
     }
 };
 
-class HomePage extends PureComponent {
+class ParksPage extends PureComponent {
     state = {
         pageHTML: null,
         pageTitle: null,
@@ -22,26 +24,26 @@ class HomePage extends PureComponent {
 
     componentDidMount = () => {
         // Get the data for the home page to be displayed
-        const url = PAGES_API_URL + "home";
+        const url = PAGES_API_URL + "parks";
         fetch(url)
             .then(response => response.json())
             .then(json => {
                 // Filter the returned list to get only the item that matches the base site URL
                 // (slugs aren't unique across navigation layers)
-                let filteredJSON = json.filter(item => item.link === WP_ROOT);
+                let filteredJSON = json.filter(item => item.link === WP_ROOT + "parks/");
                 // If there aren't any matches then throw an exception
                 if (!filteredJSON.length) 
-                    throw new pageContentError("Home", "No page matching slug found");
+                    throw new pageContentError("Parks", "No page matching slug found");
                 
                 // Set up the content to be displayed
-                const homeJSON = filteredJSON[0];
-                this.setState({pageTitle: homeJSON.title.rendered, pageHTML: homeJSON.content.rendered});
+                const parksJSON = filteredJSON[0];
+                this.setState({pageTitle: parksJSON.title.rendered, pageHTML: parksJSON.content.rendered});
                 // Check for the featured images
-                this.getFeaturedImages(homeJSON);
+                this.getFeaturedImages(parksJSON);
             })
             .catch(error => {
-                console.log("error retrieving home page data: ", error);
-                this.setState({pageHTML: "There was an error getting the home page content. Please try again soon."});
+                console.log("error retrieving parks page data: ", error);
+                this.setState({pageHTML: "There was an error getting the parks page content. Please try again soon."});
             });
     }
 
@@ -60,7 +62,7 @@ class HomePage extends PureComponent {
                 this.setState({featuredImage: json})
             })
             .catch(error => {
-                console.log("error retrieveing home page media: ", error);
+                console.log("error retrieveing parks page media: ", error);
                 this.setState({featuredImage: null});
             })
     }
@@ -78,9 +80,11 @@ class HomePage extends PureComponent {
                 <div
                     dangerouslySetInnerHTML={{
                     __html: this.state.pageHTML
-                }}/></div>
+                }}/>
+                {this.state.pageHTML && <RentalCalendar/>}
+            </div>
         )
     }
 }
 
-export default withStyles(styles)(HomePage);
+export default withStyles(styles)(ParksPage);

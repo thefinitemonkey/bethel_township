@@ -3,17 +3,35 @@ import {withStyles} from '@material-ui/core/styles';
 
 import {API_KEY, CALENDAR_ID} from '../../const';
 
-
 const styles = {
+    eventFlex: {
+        display: "flex",
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: "space-around"
+    },
+    eventDate: {
+        width: 185,
+        padding: 10,
+        border: "1px gray solid",
+        margin: 10
+    },
     eventList: {
-      listStyle: "none",
-      paddingLeft: 0
+        listStyle: "none",
+        paddingLeft: 0
+    },
+    h3: {
+        marginTop: 8
     }
-  }
+}
 
 class RentalCalendar extends PureComponent {
-    state = {calendarData: null, calendarKeys: null, calendarDataError: null};
-    
+    state = {
+        calendarData: null,
+        calendarKeys: null,
+        calendarDataError: null
+    };
+
     componentDidMount = () => {
         // Get yesterday's date and query the Google Calendar API for all events forward
         // from that date for display
@@ -47,24 +65,30 @@ class RentalCalendar extends PureComponent {
         return (
             <div>
                 <h2>Scheduled Park Rentals</h2>
-                {this.state.calendarKeys && this
-                    .state
-                    .calendarKeys
-                    .map(key => {
-                        const date = new Date(key);
-                        const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-                        const displayDate = date.toLocaleDateString('en-US', dateOptions);
-                        return (
-                        <div key={key}>
-                            <h3>{displayDate}</h3>
-                            <ul className={classes.eventList}>
-                                {this
-                                    .state
-                                    .calendarData[key]
-                                    .map(event => <li key={event.id}>{event.summary}</li>)}
-                            </ul>
-                        </div>
-                    )})}
+                <div className={classes.eventFlex}>
+                    {this.state.calendarKeys && this
+                        .state
+                        .calendarKeys
+                        .map(key => {
+                            const date = new Date(key);
+                            const dateOptions = {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                            };
+                            const displayDate = date.toLocaleDateString('en-US', dateOptions);
+                            return (
+                                <div key={key} className={classes.eventDate}>
+                                    <h3 className={classes.h3}>{displayDate}</h3>
+                                    <ul className={classes.eventList}>
+                                        {this
+                                            .state
+                                            .calendarData[key]
+                                            .map(event => <li key={event.id}>{event.summary}</li>)}
+                                    </ul>
+                                </div>
+                            )
+                        })}</div>
             </div>
         )
     }

@@ -3,9 +3,10 @@ import {Route} from 'react-router-dom';
 import {withStyles} from '@material-ui/core/styles';
 //import Typography from '@material-ui/core/Typography';
 import HomePage from './components/templates/HomePage';
+import ParksPage from './components/templates/ParksPage';
+import BasicPage from './components/templates/BasicPage';
 import 'typeface-roboto';
 
-import RentalCalendar from './components/parks/RentalCalendar';
 import HeaderMenu from './components/global/HeaderMenu';
 
 const styles = {
@@ -29,11 +30,15 @@ class App extends Component {
           <Route exact path='/' render={(() => (
             <HomePage />
           ))} />
-          <h1>Bethel Township, Clark County, OH</h1>
-          <p>Our site is currently undergoing maintenance. In the meantime, calendar
-            information for the availability of Styer and Donnelsville park facilities can
-            be viewed below.</p>
-          <RentalCalendar/>
+          <Route exact path='/home/' render={(() => (
+            <HomePage />
+          ))} />
+          <Route exact path='/parks/' render={(() => (
+            <ParksPage />
+          ))} />
+          <Route path='/' render={(() => (
+            <BasicPage />
+          ))} />
         </div>
       </div>
     );

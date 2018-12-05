@@ -10,7 +10,8 @@ const styles = {
         top: 0,
         width: "100%",
         height: 50,
-        backgroundColor: "white"
+        backgroundColor: "white",
+        padding: 10
     },
     primaryWrapper: {
         display: "flex",
@@ -45,9 +46,6 @@ class HeaderMenu extends PureComponent {
     }
 
     onMenuClick = (e, item, level) => {
-        e.preventDefault();
-        console.log("nav item clicked: ", item);
-
         // If the level of the nav item is 0 then get the related secondary nav links
         // for display
         if (level === 0) {

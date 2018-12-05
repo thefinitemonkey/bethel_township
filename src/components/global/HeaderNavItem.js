@@ -1,4 +1,5 @@
 import React, {PureComponent} from 'react';
+import {Link} from 'react-router-dom';
 import {withStyles} from '@material-ui/core/styles';
 
 const styles = {
@@ -18,9 +19,9 @@ const styles = {
         marginLeft: 15,
         marginRight: 15
     },
-    buttonLink: {
-        border: "none",
-        cursor: "pointer"
+    link: {
+        color: "black",
+        textDecoration: "none"
     }
 };
 
@@ -48,13 +49,15 @@ class HeaderNavItem extends PureComponent {
             classesObj = classes.middleItems;
         }
         // Return the menu item for rendering
+        let url = new URL(item.link);
+        let path = url.pathname.split("/wp")[1];
         return (
             <div key={item.id} className={classesObj}>
-                <button
-                    className={classes.buttonLink}
+                <Link to={path}
+                    className={classes.link}
                     onClick={e => {
                     this.onMenuClick(e, item, navLevel)
-                }}>{item.title.rendered}</button>
+                }}>{item.title.rendered}</Link>
             </div>
         );
     }
