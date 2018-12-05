@@ -5,7 +5,20 @@ import HeaderNavItem from './HeaderNavItem';
 import {ROOT_MENU_URL, SECONDARY_MENU_URL} from '../../const';
 
 const styles = {
+    sticky: {
+        position: "fixed",
+        top: 0,
+        width: "100%",
+        height: 50,
+        backgroundColor: "white"
+    },
     primaryWrapper: {
+        display: "flex",
+        flexDirection: "row",
+        flexWrap: "nowrap",
+        justifyContent: "center"
+    },
+    secondaryWrapper: {
         display: "flex",
         flexDirection: "row",
         flexWrap: "nowrap",
@@ -54,7 +67,7 @@ class HeaderMenu extends PureComponent {
         const secondaryLength = this.state.secondaryMenu.length;
 
         return (
-            <div>
+            <div className={classes.sticky}>
                 <div className={classes.primaryWrapper}>
                     {this
                         .state
