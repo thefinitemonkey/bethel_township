@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
+import {Route} from 'react-router-dom';
 import {withStyles} from '@material-ui/core/styles';
 //import Typography from '@material-ui/core/Typography';
+import HomePage from './components/templates/HomePage';
 import 'typeface-roboto';
 
 import RentalCalendar from './components/parks/RentalCalendar';
@@ -24,6 +26,9 @@ class App extends Component {
       <div className={classes.bodyLayout}>
         <HeaderMenu/>
         <div className={classes.contentWrapper}>
+          <Route exact path='/' render={(() => (
+            <HomePage />
+          ))} />
           <h1>Bethel Township, Clark County, OH</h1>
           <p>Our site is currently undergoing maintenance. In the meantime, calendar
             information for the availability of Styer and Donnelsville park facilities can
