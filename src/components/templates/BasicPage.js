@@ -29,17 +29,12 @@ class BasicPage extends PureComponent {
     }
 
     buildPageContent = () => {
-        // Get the data for the home page to be displayed
+        // Get the data for the page to be displayed
         const currentLoc = new URL(window.location);
-        console.log("currentLoc: ", currentLoc);
         let path = currentLoc.pathname;
-        console.log("path: ", path);
         let slugs = path.split("/");
-        console.log("slugs: ", slugs);
         let slugPos = slugs.length - 2;
-        console.log("slugPos: ", slugPos);
         let slug = slugs[slugPos];
-        console.log("slug: ", slug);
 
         const url = PAGES_API_URL + slug;
         console.log("basic page url: ", url);
