@@ -38,7 +38,19 @@ class HeaderMenu extends PureComponent {
         // Load the primary menu data
         fetch(ROOT_MENU_URL)
             .then(response => response.json())
-            .then(json => this.setState({primaryMenu: json}))
+            .then(json => this.setState({primaryMenu: json}, () => {
+                // Determine which top-level page we're on
+                const currentLoc = new URL(window.location);
+                let path = currentLoc.pathname;
+                let slugs = path.split("/");
+                let slug = slugs[1];
+                if (slug) {
+                    // Find the menu item with the same slug and click it
+                    let items = json.filter(item => item.slug === slug);
+                    if (items.length) this.onMenuClick(null, items[0], 0);
+                }
+        
+            }))
             .catch(e => {
                 console.log("error getting root menu: ", e);
                 this.setState({primaryMenu: []})
@@ -87,7 +99,7 @@ class HeaderMenu extends PureComponent {
                             key={index}
                             index={index}
                             length={secondaryLength}
-                            navLevel={0}
+                            navLevel={1}
                             item={item}
                             onMenuClick={this.onMenuClick}/>))}
                 </div>

@@ -21,6 +21,14 @@ class BasicPage extends PureComponent {
     };
 
     componentDidMount = () => {
+        this.buildPageContent();
+    }
+
+    componentWillReceiveProps = () => {
+        this.buildPageContent();
+    }
+
+    buildPageContent = () => {
         // Get the data for the home page to be displayed
         const currentLoc = new URL(window.location);
         console.log("currentLoc: ", currentLoc);
@@ -32,7 +40,7 @@ class BasicPage extends PureComponent {
         console.log("slugPos: ", slugPos);
         let slug = slugs[slugPos];
         console.log("slug: ", slug);
-                
+
         const url = PAGES_API_URL + slug;
         console.log("basic page url: ", url);
         fetch(url)
@@ -61,16 +69,18 @@ class BasicPage extends PureComponent {
 
     getFeaturedImages = json => {
         // Check that there is a featured media element
-        if (json.featured_media === 0) 
+        if (json.featured_media === 0) {
+            this.setState({featuredImage: null})
             return;
+        }
         
         // Get the media data
         const url = FEATURED_MEDIA_API_URL + json.featured_media;
         fetch(url)
             .then(response => response.json())
             .then(json => {
-                // If there is no image data then clear state and return
-                // Set the featured image to the first media item
+                // If there is no image data then clear state and return Set the featured image
+                // to the first media item
                 this.setState({featuredImage: json})
             })
             .catch(error => {
