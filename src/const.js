@@ -13,6 +13,6 @@ export const API_KEY = "AIzaSyASEAVn4eRhFpHbbK3bAjYHLOc5r1Yb5i0";
 export const CALENDAR_ID = "styer.park@gmail.com";
 
 // POST date range for display
-var date = Date.now();
-date = date.setDate(-30);
+var date = new Date(Date.now());
+date = new Date(date.setDate(date.getDate() - 30));
 export const POSTS_DATE_RANGE = date.toISOString();

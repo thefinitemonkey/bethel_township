@@ -5,6 +5,7 @@ import {withStyles} from '@material-ui/core/styles';
 import HomePage from './components/templates/HomePage';
 import ParksPage from './components/templates/ParksPage';
 import BasicPage from './components/templates/BasicPage';
+import PostSidebar from './components/posts/PostSidebar';
 import 'typeface-roboto';
 
 import HeaderMenu from './components/global/HeaderMenu';
@@ -14,7 +15,9 @@ const styles = {
     margin: 15
   },
   contentWrapper: {
-    paddingTop: 65
+    paddingTop: 65,
+    display: "flex",
+    displayDirection: "row"
   }
 }
 
@@ -27,12 +30,17 @@ class App extends Component {
       <div className={classes.bodyLayout}>
         <HeaderMenu/>
         <div className={classes.contentWrapper}>
-          <Switch>
-            <Route exact path='/' render={(() => (<HomePage/>))}/>
-            <Route exact path='/home/' render={(() => (<HomePage/>))}/>
-            <Route exact path='/parks/' render={(() => (<ParksPage/>))}/>
-            <Route path='/' render={(() => (<BasicPage/>))}/>
-          </Switch>
+          <div>
+            <Switch>
+              <Route exact path='/' render={(() => (<HomePage/>))}/>
+              <Route exact path='/home/' render={(() => (<HomePage/>))}/>
+              <Route exact path='/parks/' render={(() => (<ParksPage/>))}/>
+              <Route path='/' render={(() => (<BasicPage/>))}/>
+            </Switch>
+          </div>
+          <div>
+            <PostSidebar/>
+          </div>
         </div>
       </div>
     );

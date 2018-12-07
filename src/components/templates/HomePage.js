@@ -55,8 +55,9 @@ class HomePage extends PureComponent {
         fetch(url)
             .then(response => response.json())
             .then(json => {
-                // If there is no image data then clear state and return
-                // Set the featured image to the first media item
+                console.log("home featured image: ", json);
+                // If there is no image data then clear state and return Set the featured image
+                // to the first media item
                 this.setState({featuredImage: json})
             })
             .catch(error => {
@@ -73,7 +74,9 @@ class HomePage extends PureComponent {
                 <h1>{this.state.pageTitle}</h1>
                 <div className={classes.imageDiv}>{this.state.featuredImage && <img
                         className={classes.featuredImg}
-                        src={this.state.featuredImage.media_details.sizes.full.source_url}
+                        src={(this.state.featuredImage.media_details.sizes.full && 
+                            this.state.featuredImage.media_details.sizes.full.source_url) || 
+                            this.state.featuredImage.source_url}
                         alt={this.state.featuredImage.alt_text}/>}</div>
                 <div
                     dangerouslySetInnerHTML={{
