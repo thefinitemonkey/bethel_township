@@ -7,6 +7,9 @@ const styles = {
     },
     postTitle: {
         fontWeight: 700
+    },
+    pText: {
+        marginTop: 0
     }
 };
 
@@ -23,7 +26,10 @@ class PostTile extends PureComponent {
         return (
             <div className={classes.tileContainer}>
                 <div className={classes.postTitle}>{this.props.title}</div>
-                <div>{this.props.excerpt}</div>
+                <div className={classes.pText}
+                    dangerouslySetInnerHTML={{
+                    __html: this.props.excerpt
+                }}/>
             </div>
         )
     }

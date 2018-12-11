@@ -9,6 +9,9 @@ const styles = {
         display: "flex",
         flexDirection: "column",
         justifyContent: "flexStart"
+    },
+    h2: {
+        marginTop: 0
     }
 };
 
@@ -39,6 +42,7 @@ class PostSidebar extends PureComponent {
 
         return (
             <div className={classes.recentPostsList}>
+                <h2 className={classes.h2}>Recent Posts</h2>
                 {this.state.recentPosts && this.state.recentPosts.map((post, id) => 
                     <PostTile key={id} title={post.title.rendered} excerpt={post.excerpt.rendered} />    
                 )}

@@ -12,12 +12,20 @@ import HeaderMenu from './components/global/HeaderMenu';
 
 const styles = {
   bodyLayout: {
-    margin: 15
+    margin: 15,
+    marginLeft: "auto",
+    marginRight: "auto",
+    maxWidth: 1280
   },
   contentWrapper: {
     paddingTop: 65,
     display: "flex",
     displayDirection: "row"
+  },
+  sidebarWrapper: {
+    minWidth: 300,
+    maxWidth: 325,
+    marginLeft: 20
   }
 }
 
@@ -38,7 +46,7 @@ class App extends Component {
               <Route path='/' render={(() => (<BasicPage/>))}/>
             </Switch>
           </div>
-          <div>
+          <div className={classes.sidebarWrapper}>
             <PostSidebar/>
           </div>
         </div>

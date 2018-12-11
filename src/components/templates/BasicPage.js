@@ -10,6 +10,9 @@ const styles = {
     },
     featuredImg: {
         width: "100%"
+    },
+    h1: {
+        marginTop: 0
     }
 };
 
@@ -89,7 +92,7 @@ class BasicPage extends PureComponent {
 
         return (
             <div>
-                <h1>{this.state.pageTitle}</h1>
+                <h1 className={classes.h1}>{this.state.pageTitle}</h1>
                 <div className={classes.imageDiv}>{this.state.featuredImage && <img
                         className={classes.featuredImg}
                         src={(this.state.featuredImage.media_details.sizes.full && 
