@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { PAGES_API_URL, WP_ROOT, FEATURED_MEDIA_API_URL } from '../../const';
+import { POST_API_URL, WP_ROOT, FEATURED_MEDIA_API_URL } from '../../const';
 import { pageContentError } from '../../errors/errors_const';
 
 const styles = {
@@ -16,7 +16,7 @@ const styles = {
     }
 };
 
-class HomePage extends PureComponent {
+class BasicPage extends PureComponent {
     state = {
         pageHTML: null,
         pageTitle: null,
@@ -24,41 +24,67 @@ class HomePage extends PureComponent {
     };
 
     componentDidMount = () => {
-        // Get the data for the home page to be displayed
-        const url = PAGES_API_URL + "home";
+        this.buildPageContent();
+    }
+
+    componentWillReceiveProps = () => {
+        this.buildPageContent();
+    }
+
+    buildPageContent = () => {
+        // Get the data for the page to be displayed
+        const currentLoc = new URL(window.location);
+        let id = currentLoc.searchParams.get("id");
+        /*
+        let path = currentLoc.pathname;
+        let slugs = path.split("/");
+        let slugPos = slugs.length - 2;
+        let slug = slugs[slugPos];
+        */
+
+        const url = POST_API_URL + id;
+        console.log("post url: ", url);
+        console.log("post url: ", url);
         fetch(url)
             .then(response => response.json())
             .then(json => {
+                console.log("post json: ", json);
+                /*
+                console.log("WP_ROOT + path: ", WP_ROOT + path.slice(1));
                 // Filter the returned list to get only the item that matches the base site URL
                 // (slugs aren't unique across navigation layers)
-                let filteredJSON = json.filter(item => item.link === WP_ROOT);
+                let filteredJSON = json.filter(item => item.link === WP_ROOT + path.slice(1));
                 // If there aren't any matches then throw an exception
-                if (!filteredJSON.length)
-                    throw new pageContentError("Home", "No page matching slug found");
-
+                if (!filteredJSON.length) 
+                    throw new pageContentError(this.props.page.title.rendered, "No page matching slug found");
+                
                 // Set up the content to be displayed
-                const homeJSON = filteredJSON[0];
-                this.setState({ pageTitle: homeJSON.title.rendered, pageHTML: homeJSON.content.rendered });
+                const pageJSON = filteredJSON[0];
+                */
+                let pageJSON = json;
+                console.log("pageJSON: ", json);
+                this.setState({ pageTitle: pageJSON.title.rendered, pageHTML: pageJSON.content.rendered });
                 // Check for the featured images
-                this.getFeaturedImages(homeJSON);
+                this.getFeaturedImages(pageJSON);
             })
             .catch(error => {
-                console.log("error retrieving home page data: ", error);
-                this.setState({ pageHTML: "There was an error getting the home page content. Please try again soon." });
+                console.log("error retrieving post data: ", error);
+                this.setState({ pageHTML: "There was an error getting the page content. Please try again soon." });
             });
     }
 
     getFeaturedImages = json => {
         // Check that there is a featured media element
-        if (json.featured_media === 0)
+        if (json.featured_media === 0) {
+            this.setState({ featuredImage: null })
             return;
+        }
 
         // Get the media data
         const url = FEATURED_MEDIA_API_URL + json.featured_media;
         fetch(url)
             .then(response => response.json())
             .then(json => {
-                console.log("home featured image: ", json);
                 // If there is no image data then clear state and return Set the featured image
                 // to the first media item
                 this.setState({ featuredImage: json })
@@ -71,20 +97,15 @@ class HomePage extends PureComponent {
 
     render() {
         const { classes } = this.props;
-        console.log("featured image: ", this.state.featuredImage);
-        console.log("from sizes: ", this.state.featuredImage && this.state.featuredImage.media_details.sizes.full && this.state.featuredImage.media_details.sizes.full.source_url);
-        let imgA = this.state.featuredImage && this.state.featuredImage.media_details.sizes.full &&
-            this.state.featuredImage.media_details.sizes.full.source_url;
-        let imgB = this.state.featuredImage && this.state.featuredImage.source_url;
-        console.log("imgA: ", imgA);
-        console.log("imgB: ", imgB);
 
         return (
             <div>
                 <h1 className={classes.h1}>{this.state.pageTitle}</h1>
                 <div className={classes.imageDiv}>{this.state.featuredImage && <img
                     className={classes.featuredImg}
-                    src={imgA || imgB}
+                    src={(this.state.featuredImage.media_details.sizes.full &&
+                        this.state.featuredImage.media_details.sizes.full.source_url) ||
+                        this.state.featuredImage.source_url}
                     alt={this.state.featuredImage.alt_text} />}</div>
                 <div
                     dangerouslySetInnerHTML={{
@@ -94,4 +115,4 @@ class HomePage extends PureComponent {
     }
 }
 
-export default withStyles(styles)(HomePage);
+export default withStyles(styles)(BasicPage);

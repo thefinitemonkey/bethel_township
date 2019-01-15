@@ -4,6 +4,7 @@ import {withStyles} from '@material-ui/core/styles';
 //import Typography from '@material-ui/core/Typography';
 import HomePage from './components/templates/HomePage';
 import ParksPage from './components/templates/ParksPage';
+import PostPage from './components/templates/PostPage';
 import BasicPage from './components/templates/BasicPage';
 import PostSidebar from './components/posts/PostSidebar';
 import 'typeface-roboto';
@@ -43,6 +44,7 @@ class App extends Component {
               <Route exact path='/' render={(() => (<HomePage/>))}/>
               <Route exact path='/home/' render={(() => (<HomePage/>))}/>
               <Route exact path='/parks/' render={(() => (<ParksPage/>))}/>
+              <Route path='/posts/' render={(() => (<PostPage/>))}/>
               <Route path='/' render={(() => (<BasicPage/>))}/>
             </Switch>
           </div>

@@ -70,7 +70,7 @@ class RentalCalendar extends PureComponent {
                         .state
                         .calendarKeys
                         .map(key => {
-                            const date = new Date(key);
+                            const date = new Date(key + " 00:00:00");
                             const dateOptions = {
                                 year: 'numeric',
                                 month: 'long',
