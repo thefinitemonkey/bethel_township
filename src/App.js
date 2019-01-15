@@ -16,12 +16,17 @@ const styles = {
     margin: 15,
     marginLeft: "auto",
     marginRight: "auto",
+    paddingLeft: 20,
+    paddingRight: 20,
     maxWidth: 1280
   },
   contentWrapper: {
     paddingTop: 65,
     display: "flex",
     displayDirection: "row"
+  },
+  bodyWrapper: {
+    width: "100%"
   },
   sidebarWrapper: {
     minWidth: 300,
@@ -39,7 +44,7 @@ class App extends Component {
       <div className={classes.bodyLayout}>
         <HeaderMenu/>
         <div className={classes.contentWrapper}>
-          <div>
+          <div className={classes.bodyWrapper}>
             <Switch>
               <Route exact path='/' render={(() => (<HomePage/>))}/>
               <Route exact path='/home/' render={(() => (<HomePage/>))}/>

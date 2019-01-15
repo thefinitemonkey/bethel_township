@@ -8,11 +8,11 @@ const styles = {
     recentPostsList: {
         display: "flex",
         flexDirection: "column",
-        justifyContent: "flexStart"
+        justifyContent: "flexStart",
     },
     h2: {
         marginTop: 0
-    }
+    },
 };
 
 class PostSidebar extends PureComponent {
