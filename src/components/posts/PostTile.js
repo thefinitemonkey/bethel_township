@@ -26,6 +26,7 @@ class PostTile extends PureComponent {
     }
 
     onPostClick = id => {
+        console.log("onPostClick");
         //this.props.setTargetPost(id);
     }
 
@@ -38,7 +39,6 @@ class PostTile extends PureComponent {
                 <div className={classes.postTitle}>
                     <Link to={`${this.props.link}?id=${this.props.id}`}
                         onClick={e => {
-                            this.onPostClick(this.props.id)
                         }}>{this.props.title}</Link>
                 </div>
                 <div className={classes.pText}
