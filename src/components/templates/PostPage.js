@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { POST_API_URL, WP_ROOT, FEATURED_MEDIA_API_URL } from '../../const';
-import { pageContentError } from '../../errors/errors_const';
+import { POST_API_URL, FEATURED_MEDIA_API_URL } from '../../const';
+// import { pageContentError } from '../../errors/errors_const';
 
 const styles = {
     imageDiv: {

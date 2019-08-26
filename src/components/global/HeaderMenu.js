@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import HeaderNavItem from './HeaderNavItem';
 
-import {ROOT_MENU_URL, SECONDARY_MENU_URL} from '../../const';
+import {WP_ROOT, ROOT_MENU_URL, SECONDARY_MENU_URL} from '../../const';
 
 const styles = {
     sticky: {
@@ -38,7 +38,18 @@ class HeaderMenu extends PureComponent {
         // Load the primary menu data
         fetch(ROOT_MENU_URL)
             .then(response => response.json())
-            .then(json => this.setState({primaryMenu: json}, () => {
+            .then(json => {
+                console.log("menu json: ", json);
+                let postObj = {
+                    link: WP_ROOT + "post_list/",
+                    slug: "post_list",
+                    title: {rendered: "Notices"},
+                    type: "page",
+                    id: -1
+                };
+                json.push(postObj);
+                console.log("revised menu json: ", json);
+                this.setState({primaryMenu: json}, () => {
                 // Determine which top-level page we're on
                 const currentLoc = new URL(window.location);
                 let path = currentLoc.pathname;
@@ -50,7 +61,7 @@ class HeaderMenu extends PureComponent {
                     if (items.length) this.onMenuClick(null, items[0], 0);
                 }
         
-            }))
+            })})
             .catch(e => {
                 console.log("error getting root menu: ", e);
                 this.setState({primaryMenu: []})
@@ -61,6 +72,7 @@ class HeaderMenu extends PureComponent {
         // If the level of the nav item is 0 then get the related secondary nav links
         // for display
         if (level === 0) {
+            if (item.id > -1) {
             const url = SECONDARY_MENU_URL + item.id;
             fetch(url)
                 .then(response => response.json())
@@ -69,6 +81,9 @@ class HeaderMenu extends PureComponent {
                     console.log("error getting secondary menu: ", e);
                     this.setState({secondaryMenu: []});
                 });
+            } else {
+                this.setState({secondaryMenu: []});
+            }
         }
     }
 

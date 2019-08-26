@@ -55,9 +55,6 @@ class App extends Component {
               <Route path='/' render={(() => (<BasicPage/>))}/>
             </Switch>
           </div>
-          <div className={classes.sidebarWrapper}>
-            <PostSidebar/>
-          </div>
         </div>
       </div>
     );

@@ -14,8 +14,11 @@ const styles = {
         fontWeight: 700
     },
     pText: {
-        marginTop: 0
-    }
+        marginTop: 0,
+        "& p.link-more": {
+            display: "none"
+        }
+    },
 };
 
 class PostTile extends PureComponent {
@@ -50,7 +53,7 @@ class PostTile extends PureComponent {
     }
 }
 
-function mapStateToProps({ }) { return {} }
+// function mapStateToProps({ }) { return {} }
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -58,4 +61,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(PostTile)));
+export default withRouter(connect(null, mapDispatchToProps)(withStyles(styles)(PostTile)));

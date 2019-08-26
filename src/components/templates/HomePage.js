@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { PAGES_API_URL, WP_ROOT, FEATURED_MEDIA_API_URL } from '../../const';
 import { pageContentError } from '../../errors/errors_const';
+import PostSidebar from '../posts/PostSidebar';
 
 const styles = {
     imageDiv: {
@@ -81,6 +82,7 @@ class HomePage extends PureComponent {
 
         return (
             <div>
+            <div>
                 <h1 className={classes.h1}>{this.state.pageTitle}</h1>
                 <div className={classes.imageDiv}>{this.state.featuredImage && <img
                     className={classes.featuredImg}
@@ -89,7 +91,12 @@ class HomePage extends PureComponent {
                 <div
                     dangerouslySetInnerHTML={{
                         __html: this.state.pageHTML
-                    }} /></div>
+                    }} />
+            </div>
+            <div className={classes.sidebarWrapper}>
+                <PostSidebar/>
+            </div>
+            </div>
         )
     }
 }

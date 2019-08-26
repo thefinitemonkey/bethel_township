@@ -56,7 +56,7 @@ class PostSidebar extends PureComponent {
         return (
             <div className={classes.recentPostsList}>
                 <div className={classes.seeAll}>
-                    <div><h2 className={classes.h2}>Recent Posts</h2></div>
+                    <div><h2 className={classes.h2}>Notices</h2></div>
                     <div>&nbsp;(<Link className={classes.seeAllLink} to={`/post_list/`}>See All</Link>)</div>
                 </div>
                 

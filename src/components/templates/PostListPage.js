@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { POSTS_API_URL, POSTS_DATE_RANGE } from '../../const';
+import { POSTS_API_URL } from '../../const';
 
 import PostTile from '../posts/PostTile';
 
@@ -41,7 +41,7 @@ class PostListPage extends PureComponent {
 
         return (
             <div className={classes.recentPostsList}>
-                <h2 className={classes.h2}>Recent Posts</h2>
+                <h2 className={classes.h2}>All Notices</h2>
                 {this.state.recentPosts && this.state.recentPosts.map((post, id) => {
                     let link = post.link.split('wp');
                     console.log("post id: ", post.id);
