@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { POSTS_API_URL } from '../../const';
+import { POSTS_API_URL, MEETINGS_TAG } from '../../const';
 
 import PostTile from '../posts/PostTile';
 
@@ -23,7 +23,7 @@ class PostListPage extends PureComponent {
     componentDidMount = () => {
         // Get the list of posts for the specified range and using any categories
         // defined in the props
-        let url = POSTS_API_URL;
+        let url = POSTS_API_URL + 'tags_exclude=' + MEETINGS_TAG;
         console.log("posts url: ", url);
         fetch(url)
             .then(response => response.json())
@@ -42,6 +42,7 @@ class PostListPage extends PureComponent {
         return (
             <div className={classes.recentPostsList}>
                 <h2 className={classes.h2}>All Notices</h2>
+                <p>Click a link to see the full text</p>
                 {this.state.recentPosts && this.state.recentPosts.map((post, id) => {
                     let link = post.link.split('wp');
                     console.log("post id: ", post.id);

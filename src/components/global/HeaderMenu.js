@@ -47,7 +47,15 @@ class HeaderMenu extends PureComponent {
                     type: "page",
                     id: -1
                 };
+                let meetingObj = {
+                    link: WP_ROOT + "meeting_list/",
+                    slug: "meeting_list",
+                    title: {rendered: "Meetings"},
+                    type: "page",
+                    id: -1
+                }
                 json.push(postObj);
+                json.push(meetingObj);
                 console.log("revised menu json: ", json);
                 this.setState({primaryMenu: json}, () => {
                 // Determine which top-level page we're on

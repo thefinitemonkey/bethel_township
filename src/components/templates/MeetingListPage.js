@@ -1,9 +1,8 @@
 import React, { PureComponent } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
-import { POSTS_API_URL, POSTS_DATE_RANGE, MEETINGS_TAG } from '../../const';
+import { POSTS_API_URL, MEETINGS_TAG } from '../../const';
 
-import PostTile from './PostTile';
+import PostTile from '../posts/PostTile';
 
 const styles = {
     recentPostsList: {
@@ -14,21 +13,9 @@ const styles = {
     h2: {
         marginTop: 0
     },
-    seeAll: {
-        display: "flex",
-        flexFlow: "row",
-        alignItems: "baseline"
-    },
-    seeAllLink: {
-        '&:link': {color: "#00e"},
-        '&:visited': {color: "#00e"},
-        '&:hover': {color: "#00e"},
-        '&:active': {color: "#00e"},
-        textDecoration: "none"
-    }
 };
 
-class PostSidebar extends PureComponent {
+class MeetingListPage extends PureComponent {
     state = {
         recentPosts: []
     };
@@ -36,13 +23,12 @@ class PostSidebar extends PureComponent {
     componentDidMount = () => {
         // Get the list of posts for the specified range and using any categories
         // defined in the props
-        let url = POSTS_API_URL + `after=${POSTS_DATE_RANGE}&tags_exclude=${MEETINGS_TAG}`;
-        if (this.props.category) url += `&categories=${this.props.category}`;
+        let url = POSTS_API_URL + 'tags=' + MEETINGS_TAG;
         console.log("posts url: ", url);
         fetch(url)
             .then(response => response.json())
             .then(json => {
-                console.log("posts list: ", json);
+                console.log("posts list for meetings: ", json);
                 this.setState({ recentPosts: json });
             })
             .catch(error => {
@@ -55,20 +41,18 @@ class PostSidebar extends PureComponent {
 
         return (
             <div className={classes.recentPostsList}>
-                <div className={classes.seeAll}>
-                    <div><h2 className={classes.h2}>Notices</h2></div>
-                    <div>&nbsp;(<Link className={classes.seeAllLink} to={`/post_list/`}>See All</Link>)</div>
-                </div>
-                
+                <h2 className={classes.h2}>All Minutes and Agendas</h2>
+                <p>Click a link to see the full text</p>
                 {this.state.recentPosts && this.state.recentPosts.map((post, id) => {
                     let link = post.link.split('wp');
                     console.log("post id: ", post.id);
                     return <PostTile key={id} link={`/posts${link[1]}`} id={post.id} title={post.title.rendered} excerpt={post.excerpt.rendered} />
                 }
                 )}
+                <div className={classes.seeAll}></div>
             </div>
         )
     }
 }
 
-export default withStyles(styles)(PostSidebar);
+export default withStyles(styles)(MeetingListPage);

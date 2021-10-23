@@ -8,6 +8,7 @@ export const MEDIA_API_URL = `${ROOT_API_URL}/media/?parent=`;
 export const FEATURED_MEDIA_API_URL = `${ROOT_API_URL}/media/`;
 export const ROOT_MENU_URL = `${ROOT_API_URL}/pages/?context=embed&orderby=menu_order&parent=0`;
 export const SECONDARY_MENU_URL = `${ROOT_API_URL}/pages/?context=embed&orderby=menu_order&parent=`;
+export const MEETINGS_TAG = 37;
 
 // Google Calendar API settings
 export const API_KEY = "AIzaSyASEAVn4eRhFpHbbK3bAjYHLOc5r1Yb5i0";
